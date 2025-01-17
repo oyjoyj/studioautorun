@@ -38,6 +38,14 @@ def check(path):
     print("frame fps:", framefps)
     print("export cost:", exportcost)
 
+    #关闭文件
+    file.close()
+    #销毁列表
+    del dir_list
+    del dir_time
+    del file_list
+    del file_len
+
 
 if __name__ == "__main__":
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
