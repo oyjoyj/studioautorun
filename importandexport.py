@@ -4,6 +4,8 @@ from PIL.Image import Image
 from pyautogui import *
 from pynput import mouse, keyboard
 
+import checkconfig
+
 #路径不能带中文
 def import_file(filePath="",ifsingle=True):
     if ifsingle:
@@ -31,26 +33,61 @@ def import_file(filePath="",ifsingle=True):
         time.sleep(10)
 
 #路径不能带中文 ex:path = r"C:\Users\Administrator\Desktop\0109sucai\photo"
-def export_file(exportPath="",ifsingle=True,ifphoto=True):
+def export_file(exportPath="",ifsingle=True,ifphoto=True,encodefmt=0):
+    hotkey('ctrl', 'e')
+    time.sleep(1)
     if ifsingle:
         if ifphoto:
-            hotkey('ctrl', 'e')
             if exportPath:
                 click(1078,416)
+                time.sleep(0.8)
                 press('f4')
                 hotkey('ctrl', 'a')
                 typewrite(exportPath)
                 press('enter')
-                press('tab', presses=5)
+                press('tab', presses=6)
                 press('enter')
             click(1096,708)
+        else:
+            if exportPath:
+                click(1085,355)
+                time.sleep(0.8)
+                press('f4')
+                hotkey('ctrl', 'a')
+                typewrite(exportPath)
+                time.sleep(3)
+                press('enter')
+                press('tab', presses=6)
+                time.sleep(0.5)
+                press('tab')
+                press('enter')
+                checkconfig.checkencodefmt(encodefmt,ifsingle)
+            click(1102,807)
     else:
-        if exportPath:
-            click(1142,353)
-            press('f4')
-            hotkey('ctrl', 'a')
-            typewrite(exportPath)
-            press('enter')
-            press('tab', presses=6)
-            press('enter')
-        click(1166,834)
+        if ifphoto:
+            # if exportPath:
+            #     click(1142,353)
+            #     press('f4')
+            #     hotkey('ctrl', 'a')
+            #     typewrite(exportPath)
+            #     press('enter')
+            #     press('tab', presses=6)
+            #     press('enter')
+            # if encodefmt != 0:
+            #     checkconfig.checkencodefmt(encodefmt)
+            # click(1166,834)
+            pass
+        else:
+            if exportPath:
+                click(1142,353)
+                time.sleep(0.8)
+                press('f4')
+                hotkey('ctrl', 'a')
+                typewrite(exportPath)
+                press('enter')
+                press('tab', presses=6)
+                time.sleep(0.5)
+                press('tab')
+                press('enter')
+                checkconfig.checkencodefmt(encodefmt,ifsingle)
+            click(1166,834)
