@@ -5,6 +5,7 @@ from pyautogui import *
 from pynput import mouse, keyboard
 
 import checkconfig
+import change360
 
 #路径不能带中文
 def import_file(filePath="",ifsingle=True):
@@ -33,7 +34,7 @@ def import_file(filePath="",ifsingle=True):
         time.sleep(10)
 
 #路径不能带中文 ex:path = r"C:\Users\Administrator\Desktop\0109sucai\photo"
-def export_file(exportPath="",ifsingle=True,ifphoto=True,encodefmt=0):
+def export_file(exportPath="",ifsingle=True,ifphoto=True,if360=False,encodefmt=0):
     hotkey('ctrl', 'e')
     time.sleep(1)
     if ifsingle:
@@ -62,6 +63,10 @@ def export_file(exportPath="",ifsingle=True,ifphoto=True,encodefmt=0):
                 press('tab')
                 press('enter')
                 checkconfig.checkencodefmt(encodefmt,ifsingle)
+            if if360:
+                change360.change360()
+            else:
+                change360.changesquare()
             click(1102,807)
     else:
         if ifphoto:

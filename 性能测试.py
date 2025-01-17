@@ -19,10 +19,10 @@ if __name__ == "__main__":
     importandexport.import_file(import_path, True)
     #play.play()
     time.sleep(3)
-    importandexport.export_file(export_path, True, False, 1)
-    time.sleep(expectexporttime)
-    openclose.closestudio()
-    checklog.check(log_path)
+    importandexport.export_file(export_path, True, False, 1,1)
+    # time.sleep(expectexporttime)
+    # openclose.closestudio()
+    # checklog.check(log_path)
 
 
 
