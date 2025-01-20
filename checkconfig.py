@@ -1,9 +1,11 @@
 import os
 import time
 
+import pyautogui
 from PIL import Image
 from mouseinfo import screenshot
 from pyautogui import hotkey, click, press
+from pynput import mouse
 
 
 #imgprocess = 1: auto       2:cpu
@@ -97,6 +99,52 @@ def checkencodefmt(encodefmt,ifsingle = True):
             print("Prores422")
     time.sleep(0.8)
 
+def checkcpandilog(ifcp=1,ifilog=0):
+    click(1887,275)
+    time.sleep(1.5)
+    screen = screenshot()
+    screen.save("screen.jpg")
+    image = Image.open("screen.jpg")
+    pixel_color = image.getpixel((1873, 183))
+    #print(pixel_color)
+    if pixel_color[0] > 200 and pixel_color[1] > 200:
+        if ifcp:
+            print("CP")
+        else:
+            click(1873, 183)
+            time.sleep(0.8)
+            print("更改至CP-关")
+    else:
+        if ifcp:
+            click(1873, 183)
+            time.sleep(0.8)
+            print("更改至CP-开")
+        else:
+            print("CP-关")
+    #模拟鼠标滚轮向下滚动
+    pyautogui.scroll(-1000)
+    time.sleep(5)
+    screen = screenshot()
+    screen.save("screen.jpg")
+    image = Image.open("screen.jpg")
+    pixel_color = image.getpixel((1873, 916))
+    # print(pixel_color)
+    if pixel_color[0] > 200 and pixel_color[1] > 200:
+        if ifilog:
+            print("ilog")
+        else:
+            click(1873, 916)
+            time.sleep(0.8)
+            print("更改至ilog-关")
+    else:
+        if ifilog:
+            click(1873, 916)
+            time.sleep(0.8)
+            print("更改至ilog-开")
+        else:
+            print("ilog-关")
+
 if __name__ == '__main__':
     time.sleep(3)
-    checkencodefmt(1,1)
+    # checkencodefmt(1,1)
+    checkcpandilog(1,0)
