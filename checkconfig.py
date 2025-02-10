@@ -143,8 +143,10 @@ def checkcpandilog(ifcp=1,ifilog=0):
             print("更改至ilog-开")
         else:
             print("ilog-关")
+    os.remove("screen.jpg")
 
 if __name__ == '__main__':
     time.sleep(3)
+    check(1,1)
     # checkencodefmt(1,1)
-    checkcpandilog(1,0)
+    # checkcpandilog(1,0)

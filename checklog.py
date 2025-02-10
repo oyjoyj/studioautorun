@@ -17,29 +17,33 @@ def check(path):
             export_file = file
     print(shortest_file)
     print(export_file)
+
     with open(shortest_file, 'r', encoding='utf-8', errors='ignore') as file:
         log_content = file.read()
     #找到import cost字段，读取这一行这个字段后的数字
     import_cost = re.findall(r'import cost: (\d+)', log_content)
-    importcost = sum(map(float, import_cost)) / len(import_cost)
-    if importcost == 0:
+    if not import_cost:
         import_cost = re.findall(r'from single clip panel, cost: (\d+)', log_content)
-        importcost = sum(map(float, import_cost)) / len(import_cost)
-        if importcost == 0:
+        if not import_cost:
             import_cost = re.findall(r'Import footage, cost: (\d+)', log_content)
-            importcost = sum(map(float, import_cost)) / len(import_cost) if import_cost else 0
+
+    #找到frame fps字段，读取这一行这个字段后的数字
     frame_fps_list = re.findall(r'HRenderNewFrame fps:(\d+\.\d+)', log_content)
     framefps = sum(map(float, frame_fps_list)) / len(frame_fps_list) if frame_fps_list else 0
+
+    #找到export cost字段，读取这一行这个字段后的数字
     with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
         export_content = file.read()
     export_cost = re.findall(r'exporter time cost (\d+)', export_content)
     exportcost = sum(map(float, export_cost)) / len(export_cost) if export_cost else 0
-    print("import cost:", importcost)
+    print("import cost:", import_cost)
     print("frame fps:", framefps)
     print("export cost:", exportcost)
 
     #关闭文件
     file.close()
+    #返回上一级目录
+    os.chdir("..")
     #销毁列表
     del dir_list
     del dir_time
