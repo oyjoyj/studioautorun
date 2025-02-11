@@ -3,6 +3,7 @@ import os
 import re
 import time
 
+
 def check(path):
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
@@ -50,7 +51,45 @@ def check(path):
     del file_list
     del file_len
 
+def checkothers(path):
+    choice = input("Please input 1 or 2:\n1:check main log\n2:check export log\n")
+    content = input("Please input the content you want to check:\n")
+    dir_list = os.listdir(path)
+    dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
+    newest_dir = dir_list[dir_time.index(max(dir_time))]
+    os.chdir(os.path.join(path, newest_dir))
+    file_list = os.listdir(os.path.join(path, newest_dir))
+    file_len = [len(file) for file in file_list]
+    if choice == '1':
+        shortest_file = file_list[file_len.index(min(file_len))]
+        with open(shortest_file, 'r', encoding='utf-8', errors='ignore') as file:
+            log_content = file.read()
+        #找到content字段，读取这一行这个字段后的内容
+        result = re.findall(content, log_content)
+        if result:
+            print(result)
+        else:
+            print("No content found")
+        file.close()
+    elif choice == '2':
+        for file in file_list:
+            if 'export' in file:
+                export_file = file
+        with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
+            export_content = file.read()
+        result = re.findall(content, export_content)
+        if result:
+            print(result)
+        else:
+            print("No content found")
+        file.close()
+
 
 if __name__ == "__main__":
+
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
-    check(path)
+    choice = input("1:check log\n2:check others\n")
+    if choice == '1':
+        check(path)
+    elif choice == '2':
+        checkothers(path)
