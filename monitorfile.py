@@ -22,6 +22,7 @@ def monitorfile(path):
                 break
             time.sleep(10)
             times += 1
+            print("wait times:", times,"360")
             if times >= 360:
                 print("Export task failed 1")
                 return False
