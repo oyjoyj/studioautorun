@@ -1,8 +1,9 @@
 import os
 import time
+import re
 
 
-def monitorfile(path):
+def monitorfile(path,expecttimes):
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
@@ -17,12 +18,14 @@ def monitorfile(path):
     while True:
         with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
             log_content = file.read()
-            if 'Export task final' in log_content:
+            # if 'Export task final' in log_content:
+            result_list = re.findall('Export task final', log_content)
+            if len(result_list) == expecttimes:
                 print("Export task completed 1")
                 break
             time.sleep(10)
             times += 1
-            print("wait times:", times,"360")
+            print("wait times:", times,"/360")
             if times >= 360:
                 print("Export task failed 1")
                 return False

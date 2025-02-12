@@ -43,10 +43,12 @@ def send_email(name):
     except smtplib.SMTPException as e:
         print('邮件发送失败:', str(e))
 
-def export_send(name):
-    if monitorfile.monitor_file(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"):
+def export_send(name,expecttimes):
+    if monitorfile.monitorfile(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log",expecttimes):
         send_email(name)
 
 if __name__ == '__main__':
     # send_email('oyj')
-    export_send('oyj')
+    name = str(input('输入姓名：'))
+    expecttimes = int(input('输入预期导出次数：'))
+    export_send(name,expecttimes)
