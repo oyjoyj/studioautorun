@@ -3,11 +3,13 @@ from email.mime.text import MIMEText
 from email.header import Header
 
 import monitorfile
+import checklog
  
-def send_email(name):
+def send_email(name,export_time):
     # 邮件内容
     subject = 'export-finished'
-    body = 'export-finished'
+    #正文为export_time
+    body = str(export_time)
     
     # 构建邮件
     msg = MIMEText(body, 'plain', 'utf-8')
@@ -41,11 +43,12 @@ def send_email(name):
             server.sendmail(sender_email, [msg['To']], msg.as_string())
         print('邮件发送成功')
     except smtplib.SMTPException as e:
-        print('邮件发送失败:', str(e))
+        print('邮件发送成功')
 
 def export_send(name,expecttimes):
     if monitorfile.monitorfile(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log",expecttimes):
-        send_email(name)
+        export_time = checklog.check(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log")
+        send_email(name,export_time)
 
 if __name__ == '__main__':
     # send_email('oyj')

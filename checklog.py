@@ -39,7 +39,7 @@ def check(path):
     exportcost = sum(map(float, export_cost)) / len(export_cost) if export_cost else 0
     print("import cost:", import_cost)
     print("frame fps:", framefps)
-    print("export cost:", exportcost)
+    print("export cost:", export_cost)
 
     #关闭文件
     file.close()
@@ -50,6 +50,7 @@ def check(path):
     del dir_time
     del file_list
     del file_len
+    return export_cost
 
 def checkothers(path):
     choice = input("Please input 1 or 2:\n1:check main log\n2:check export log\n")
