@@ -78,6 +78,7 @@ def cloud_service_test(inipath):
                     content = content.replace('test_environment=false', 'test_environment=true')
                     with open("startup.ini", "w") as f:
                         f.write(content)
+                    f.close()
                     print("test environment is open")
             elif ifopen == 2:
                 if 'test_environment=false' in content:
@@ -87,6 +88,7 @@ def cloud_service_test(inipath):
                     content = content.replace('test_environment=true', 'test_environment=false')
                     with open("startup.ini", "w") as f:
                         f.write(content)
+                    f.close()
                     print("test environment is close")
         else:
             with open("startup.ini", "a") as f:
@@ -96,16 +98,17 @@ def cloud_service_test(inipath):
                 elif ifopen == 2:
                     f.write("test_environment=false\n")
             print("test environment is added")
+            f.close()
 
 def defringechange(inipath):
     os.chdir(inipath)
     ifopen = int(input("1:open 2:close\n"))
+    ifcheck = int(input("1:yes 2:no\n"))
     with open("startup.ini", "r") as f:
         content = f.read()
         if 'defringe' in content:
             if ifopen == 1:
                 if 'defringe=true' in content:
-                    f.close()
                     print("defringe is already open")
                 else:
                     content = content.replace('defringe=false', 'defringe=true')
@@ -114,7 +117,6 @@ def defringechange(inipath):
                     print("defringe is open")
             elif ifopen == 2:
                 if 'defringe=false' in content:
-                    f.close()
                     print("defringe is already close")
                 else:
                     content = content.replace('defringe=true', 'defringe=false')
@@ -129,11 +131,49 @@ def defringechange(inipath):
                 elif ifopen == 2:
                     f.write("defringe=false\n")
             print("defringe is added")
+        if 'defringe_detect' in content:
+            if ifcheck == 1:
+                if 'defringe_detect=true' in content:
+                    print("defringe_detect is already open")
+                else:
+                    content = content.replace('defringe_detect=false', 'defringe_detect=true')
+                    with open("startup.ini", "w") as f:
+                        f.write(content)
+                    print("defringe_detect is open")
+            elif ifcheck == 2:
+                if 'defringe_detect=false' in content:
+                    print("defringe_detect is already close")
+                else:
+                    content = content.replace('defringe_detect=true', 'defringe_detect=false')
+                    with open("startup.ini", "w") as f:
+                        f.write(content)
+                    print("defringe_detect is close")
+        else:
+            with open("startup.ini", "a") as f:
+                if ifcheck == 1:
+                    f.write("defringe_detect=true\n")
+                elif ifcheck == 2:
+                    f.write("defringe_detect=false\n")
+            print("defringe_detect is added")
+        f.close()
+
+def printfps(inipath):
+    os.chdir(inipath)
+    with open("startup.ini", "r") as f:
+        content = f.read()
+        if 'print_fps' in content:
+            print("fps is already added")
+        else:
+            with open("startup.ini", "a") as f:
+                f.write("[ui]\n")
+                f.write("print_fps=true\n")
+            print("fps is added")
+        f.close()
 
 if __name__ == "__main__":
     #获取输入值
     if is_admin() == False:
-        print("1:open 2:close 3:cleancache 4:forceclose 5:change thumbnail name 6:cloud service test environment change")
+        print("1:open 2:close 3:cleancache 4:forceclose 5:change thumbnail name 6:cloud service test environment change 7:defringe change" )
         choice = int(input())
         if choice == 1:
             openstudio(0)
@@ -147,6 +187,8 @@ if __name__ == "__main__":
             runas_admin()
         elif choice == 6:
             cloud_service_test(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
+        elif choice == 7:
+            defringechange(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
     else:
         ch = int(input("1:change 2:recover\n"))
         changethumbnailname(ch)
