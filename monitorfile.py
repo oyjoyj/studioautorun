@@ -38,4 +38,4 @@ def monitorfile(path,expecttimes):
 
 if __name__ == "__main__":
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
-    monitorfile(path)
+    monitorfile(path,2)
