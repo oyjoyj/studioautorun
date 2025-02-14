@@ -4,6 +4,15 @@ import re
 
 
 def monitorfile(path,expecttimes):
+    os.chdir(path)
+    dir_list = os.listdir(path)
+    #找到名称中含有archive的文件夹，删除这个文件夹
+    if 'archive' in dir_list:
+        os.system(r"rd /s /q archive")
+    for dir in dir_list:
+        if 'detector' in dir:
+            os.system(r"rd /s /q " + dir)
+    os.chdir("..")
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
@@ -38,4 +47,4 @@ def monitorfile(path,expecttimes):
 
 if __name__ == "__main__":
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
-    monitorfile(path,2)
+    monitorfile(path,3)
