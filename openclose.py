@@ -173,7 +173,7 @@ def printfps(inipath):
 if __name__ == "__main__":
     #获取输入值
     if is_admin() == False:
-        print("1:open 2:close 3:cleancache 4:forceclose 5:change thumbnail name 6:cloud service test environment change 7:defringe change" )
+        print("1:open 2:close 3:cleancache 4:forceclose 5:change thumbnail name 6:cloud service test environment change 7:defringe change 8:print fps")
         choice = int(input())
         if choice == 1:
             openstudio(0)
@@ -189,6 +189,8 @@ if __name__ == "__main__":
             cloud_service_test(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
         elif choice == 7:
             defringechange(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
+        elif choice == 8:
+            printfps(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
     else:
         ch = int(input("1:change 2:recover\n"))
         changethumbnailname(ch)
