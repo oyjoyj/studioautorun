@@ -178,6 +178,7 @@ if __name__ == "__main__":
         if choice == 1:
             openstudio(0)
         elif choice == 2:
+            expecttimes = int(input("expect times:"))
             closestudio()
         elif choice == 3:
             cleancache()
