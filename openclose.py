@@ -40,8 +40,8 @@ def openstudio(ifsingle=True):
         click(1105,720)
     time.sleep(2)
 
-def closestudio():
-    flag = monitorfile.monitorfile(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log")
+def closestudio(expecttimes):
+    flag = monitorfile.monitorfile(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log", expecttimes)
     if flag:
         print("Export task completed")
     else:
