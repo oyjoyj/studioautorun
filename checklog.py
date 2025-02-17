@@ -27,7 +27,6 @@ def check(path):
         import_cost = re.findall(r'from single clip panel, cost: (\d+)', log_content)
         if not import_cost:
             import_cost = re.findall(r'Import footage, cost: (\d+)', log_content)
-
     #找到frame fps字段，读取这一行这个字段后的数字
     frame_fps_list = re.findall(r'HRenderNewFrame fps:(\d+\.\d+)', log_content)
     framefps = sum(map(float, frame_fps_list)) / len(frame_fps_list) if frame_fps_list else 0
@@ -36,16 +35,13 @@ def check(path):
     with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
         export_content = file.read()
     export_cost = re.findall(r'exporter time cost (\d+)', export_content)
-    exportcost = sum(map(float, export_cost)) / len(export_cost) if export_cost else 0
+    if not export_cost:
+        export_cost = re.findall(r'exporter time cost: (\d+)', export_content)
     print("import cost:", import_cost)
     print("frame fps:", framefps)
     print("export cost:", export_cost)
-
-    #关闭文件
     file.close()
-    #返回上一级目录
     os.chdir("..")
-    #销毁列表
     del dir_list
     del dir_time
     del file_list
@@ -61,15 +57,15 @@ def checkothers(path):
     os.chdir(os.path.join(path, newest_dir))
     file_list = os.listdir(os.path.join(path, newest_dir))
     file_len = [len(file) for file in file_list]
+    judge = 0
     if choice == '1':
         shortest_file = file_list[file_len.index(min(file_len))]
         with open(shortest_file, 'r', encoding='utf-8', errors='ignore') as file:
-            log_content = file.read()
-        #找到content字段，读取这一行这个字段后的内容
-        result = re.findall(content, log_content)
-        if result:
-            print(result)
-        else:
+            for line in file:
+                if content in line:
+                    print(line)
+                    judge = 1
+        if judge == 0:
             print("No content found")
         file.close()
     elif choice == '2':
@@ -77,11 +73,11 @@ def checkothers(path):
             if 'export' in file:
                 export_file = file
         with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
-            export_content = file.read()
-        result = re.findall(content, export_content)
-        if result:
-            print(result)
-        else:
+            for line in file:
+                if content in line:
+                    print(line)
+                    judge = 1
+        if judge == 0:
             print("No content found")
         file.close()
 
