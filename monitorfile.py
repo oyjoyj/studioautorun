@@ -21,9 +21,14 @@ def deleteotherdir(path):
         os.chdir("..")
         #删除这个文件夹
         os.system(r"rd /s /q " + newest_dir)
+        return False
+    return True
         
 def monitorfile(path,expecttimes):
-    deleteotherdir(path)
+    while(True):
+        if deleteotherdir(path):
+            break
+        time.sleep(1)
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]

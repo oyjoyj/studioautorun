@@ -2,9 +2,11 @@
 import os
 import re
 import time
+import monitorfile
 
 
 def check(path):
+    monitorfile.deleteotherdir(path)
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
@@ -49,6 +51,7 @@ def check(path):
     return export_cost
 
 def checkothers(path):
+    monitorfile.deleteotherdir(path)
     choice = input("Please input 1 or 2:\n1:check main log\n2:check export log\n")
     content = input("Please input the content you want to check:\n")
     dir_list = os.listdir(path)
@@ -83,7 +86,6 @@ def checkothers(path):
 
 
 if __name__ == "__main__":
-
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
     choice = input("1:check log\n2:check others\n")
     if choice == '1':
