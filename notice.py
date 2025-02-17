@@ -11,28 +11,17 @@ import zipfile
 import os
  
 def zip_dir(dirpath,outFullName):
-    """
-    压缩指定文件夹
-    :param dirpath: 目标文件夹路径
-    :param outFullName: 压缩文件保存路径+xxxx.zip
-    :return: 无
-    """
     zip = zipfile.ZipFile(outFullName,"w",zipfile.ZIP_DEFLATED)
     for path,dirnames,filenames in os.walk(dirpath):
-        # 去掉目标文件夹路径前缀
         fpath = path.replace(dirpath,'')
- 
         for filename in filenames:
             zip.write(os.path.join(path,filename),os.path.join(fpath,filename))
     zip.close()
 
 def send_email(name,export_time,zipfile):
-    # 邮件内容
     subject = 'export-finished'
-    #正文为export_time
     body = str(export_time)
     
-    # 构建邮件
     msg = MIMEMultipart()
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
     msg['Subject'] = Header(subject, 'utf-8')
@@ -67,7 +56,7 @@ def send_email(name,export_time,zipfile):
     smtp_server = 'smtp.qq.com'
     smtp_port = 587
     sender_email = '2785089588@qq.com'
-    password = 'uueyqlthaqumdgge' #在QQ邮箱设置里拿到的码
+    password = 'uueyqlthaqumdgge'
     
     try:
         with smtplib.SMTP(smtp_server, smtp_port) as server:

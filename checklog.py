@@ -2,8 +2,9 @@
 import os
 import re
 import time
-import monitorfile
 
+import monitorfile
+import notice
 
 def check(path):
     monitorfile.deleteotherdir(path)
@@ -39,9 +40,9 @@ def check(path):
     export_cost = re.findall(r'exporter time cost (\d+)', export_content)
     if not export_cost:
         export_cost = re.findall(r'exporter time cost: (\d+)', export_content)
-    print("import cost:", import_cost)
-    print("frame fps:", framefps)
-    print("export cost:", export_cost)
+    print("导入耗时:", import_cost)
+    print("预览帧率:", framefps)
+    print("导出耗时:", export_cost)
     file.close()
     os.chdir("..")
     del dir_list
@@ -52,8 +53,8 @@ def check(path):
 
 def checkothers(path):
     monitorfile.deleteotherdir(path)
-    choice = input("Please input 1 or 2:\n1:check main log\n2:check export log\n")
-    content = input("Please input the content you want to check:\n")
+    choice = input("1:查看主log中的内容\n2:查看export log中的内容\n")
+    content = input("请输入要查找的内容:")
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
@@ -69,7 +70,7 @@ def checkothers(path):
                     print(line)
                     judge = 1
         if judge == 0:
-            print("No content found")
+            print("没有找到内容")
         file.close()
     elif choice == '2':
         for file in file_list:
@@ -81,13 +82,13 @@ def checkothers(path):
                     print(line)
                     judge = 1
         if judge == 0:
-            print("No content found")
+            print("没有找到内容")
         file.close()
 
 
 if __name__ == "__main__":
     path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
-    choice = input("1:check log\n2:check others\n")
+    choice = input("1:查看导入导出耗时、预览帧率\n2:检查其他字段\n")
     if choice == '1':
         check(path)
     elif choice == '2':

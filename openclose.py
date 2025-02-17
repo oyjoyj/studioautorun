@@ -43,9 +43,9 @@ def openstudio(ifsingle=True):
 def closestudio(expecttimes):
     flag = monitorfile.monitorfile(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log", expecttimes)
     if flag:
-        print("Export task completed")
+        print("导出任务完成")
     else:
-        print("Export task failed")
+        print("导出任务未完成")
     #找到名为Insta360 Studio.exe的进程，关闭
     os.system("taskkill /im \"Insta360 Studio.exe\"")
     time.sleep(5)
@@ -66,95 +66,98 @@ def changethumbnailname(choice):
         
 def cloud_service_test(inipath):
     os.chdir(inipath)
-    ifopen = int(input("1:open 2:close\n"))
+    ifopen = int(input("1:打开 2:关闭\n"))
     with open("startup.ini", "r") as f:
         content = f.read()
         if 'test_environment' in content:
             if ifopen == 1:
                 if 'test_environment=true' in content:
                     f.close()
-                    print("test environment is already open")
+                    print("测试环境已经打开")
                 else:
                     content = content.replace('test_environment=false', 'test_environment=true')
                     with open("startup.ini", "w") as f:
                         f.write(content)
                     f.close()
-                    print("test environment is open")
+                    print("测试环境打开")
             elif ifopen == 2:
                 if 'test_environment=false' in content:
                     f.close()
-                    print("test environment is already close")
+                    print("测试环境已经关闭")
                 else:
                     content = content.replace('test_environment=true', 'test_environment=false')
                     with open("startup.ini", "w") as f:
                         f.write(content)
                     f.close()
-                    print("test environment is close")
+                    print("测试环境关闭")
         else:
             with open("startup.ini", "a") as f:
                 f.write("[cloud_service]\n")
                 if ifopen == 1:
                     f.write("test_environment=true\n")
+                    print("测试环境已经添加-打开")
                 elif ifopen == 2:
                     f.write("test_environment=false\n")
-            print("test environment is added")
+                    print("测试环境已经添加-关闭")
             f.close()
 
 def defringechange(inipath):
     os.chdir(inipath)
-    ifopen = int(input("1:open 2:close\n"))
-    ifcheck = int(input("1:yes 2:no\n"))
+    ifopen = int(input("1:打开去紫边 2:关闭去紫边\n"))
+    ifcheck = int(input("1:打开去紫边检测 2:关闭去紫边检测\n"))
     with open("startup.ini", "r") as f:
         content = f.read()
         if 'defringe' in content:
             if ifopen == 1:
                 if 'defringe=true' in content:
-                    print("defringe is already open")
+                    print("去紫边已经打开")
                 else:
                     content = content.replace('defringe=false', 'defringe=true')
                     with open("startup.ini", "w") as f:
                         f.write(content)
-                    print("defringe is open")
+                    print("去紫边打开")
             elif ifopen == 2:
                 if 'defringe=false' in content:
-                    print("defringe is already close")
+                    print("去紫边已经关闭")
                 else:
                     content = content.replace('defringe=true', 'defringe=false')
                     with open("startup.ini", "w") as f:
                         f.write(content)
-                    print("defringe is close")
+                    print("去紫边关闭")
         else:
             with open("startup.ini", "a") as f:
                 f.write("[filter]\n")
                 if ifopen == 1:
                     f.write("defringe=true\n")
+                    print("去紫边已经添加-打开")
                 elif ifopen == 2:
                     f.write("defringe=false\n")
-            print("defringe is added")
+                    print("去紫边已经添加-关闭")
         if 'defringe_detect' in content:
             if ifcheck == 1:
                 if 'defringe_detect=true' in content:
-                    print("defringe_detect is already open")
+                    print("去紫边检测已经打开")
                 else:
                     content = content.replace('defringe_detect=false', 'defringe_detect=true')
                     with open("startup.ini", "w") as f:
                         f.write(content)
-                    print("defringe_detect is open")
+                    print("去紫边检测打开")
             elif ifcheck == 2:
                 if 'defringe_detect=false' in content:
-                    print("defringe_detect is already close")
+                    print("去紫边检测已经关闭")
                 else:
                     content = content.replace('defringe_detect=true', 'defringe_detect=false')
                     with open("startup.ini", "w") as f:
                         f.write(content)
-                    print("defringe_detect is close")
+                    print("去紫边检测关闭")
         else:
             with open("startup.ini", "a") as f:
                 if ifcheck == 1:
                     f.write("defringe_detect=true\n")
+                    print("去紫边检测已经添加-打开")
                 elif ifcheck == 2:
                     f.write("defringe_detect=false\n")
-            print("defringe_detect is added")
+                    print("去紫边检测已经添加-关闭")
         f.close()
 
 def printfps(inipath):
@@ -162,23 +165,36 @@ def printfps(inipath):
     with open("startup.ini", "r") as f:
         content = f.read()
         if 'print_fps' in content:
-            print("fps is already added")
+            print("fps已经添加")
         else:
             with open("startup.ini", "a") as f:
                 f.write("[ui]\n")
                 f.write("print_fps=true\n")
-            print("fps is added")
+            print("fps添加")
+        f.close()
+
+def decodelog(inipath):
+    os.chdir(inipath)
+    with open("startup.ini", "r") as f:
+        content = f.read()
+        if 'decode_log' in content:
+            print("解码log已经添加")
+        else:
+            with open("startup.ini", "a") as f:
+                f.write("[preference]\n")
+                f.write("do_not_crypt_log = true\n")
+            print("解码log添加")
         f.close()
 
 if __name__ == "__main__":
     #获取输入值
     if is_admin() == False:
-        print("1:open 2:close 3:cleancache 4:forceclose 5:change thumbnail name 6:cloud service test environment change 7:defringe change 8:print fps")
+        print("1:打开studio\n2:关闭studio\n3:清除缓存\n4:强制关闭studio\n5:更改缩略图进程名\n6:云测环境开关\n7:去紫边开关\n8:打印fps\n9:解码log开关")
         choice = int(input())
         if choice == 1:
             openstudio(0)
         elif choice == 2:
-            expecttimes = int(input("expect times:"))
+            expecttimes = int(input("期望次数:"))
             closestudio()
         elif choice == 3:
             cleancache()
@@ -192,6 +208,8 @@ if __name__ == "__main__":
             defringechange(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
         elif choice == 8:
             printfps(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
+        elif choice == 9:
+            decodelog(r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio")
     else:
-        ch = int(input("1:change 2:recover\n"))
+        ch = int(input("1:更改 2:还原\n"))
         changethumbnailname(ch)
