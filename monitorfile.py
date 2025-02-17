@@ -2,8 +2,7 @@ import os
 import time
 import re
 
-
-def monitorfile(path,expecttimes):
+def deleteotherdir(path):
     os.chdir(path)
     dir_list = os.listdir(path)
     #找到名称中含有archive的文件夹，删除这个文件夹
@@ -13,6 +12,18 @@ def monitorfile(path,expecttimes):
         if 'detector' in dir:
             os.system(r"rd /s /q " + dir)
     os.chdir("..")
+    dir_list = os.listdir(path)
+    dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
+    newest_dir = dir_list[dir_time.index(max(dir_time))]
+    os.chdir(os.path.join(path, newest_dir))
+    file_list = os.listdir(os.path.join(path, newest_dir))
+    if len(file_list) != 7:
+        os.chdir("..")
+        #删除这个文件夹
+        os.system(r"rd /s /q " + newest_dir)
+        
+def monitorfile(path,expecttimes):
+    deleteotherdir(path)
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
