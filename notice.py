@@ -7,6 +7,8 @@ from email.mime.multipart import MIMEMultipart
 
 import monitorfile
 import checklog
+from findplatform import find_platform
+
 import zipfile
 import os
  
@@ -19,8 +21,8 @@ def zip_dir(dirpath,outFullName):
     zip.close()
 
 def send_email(name,export_time,zipfile):
-    subject = 'export-finished'
-    body = str(export_time)
+    subject = '导出完成'
+    body = str('导出耗时：') + str(export_time)
     
     msg = MIMEMultipart()
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
@@ -57,6 +59,7 @@ def send_email(name,export_time,zipfile):
     smtp_port = 587
     sender_email = '2785089588@qq.com'
     password = 'uueyqlthaqumdgge'
+    password = 'uueyqlthaqumdgge'
     
     try:
         with smtplib.SMTP(smtp_server, smtp_port) as server:
@@ -69,7 +72,10 @@ def send_email(name,export_time,zipfile):
     os.remove(zipfile)
 
 def export_send(name,expecttimes):
-    path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
+    if find_platform() == 1:
+        path = r"/Users/insta360/Library/Application Support/Insta360/Insta360 Studio/log"
+    elif find_platform() == 2:
+        path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
     if monitorfile.monitorfile(path,expecttimes):
         export_time = checklog.check(path)
         dir_list = os.listdir(path)

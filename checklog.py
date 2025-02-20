@@ -3,11 +3,14 @@ import os
 import re
 import time
 
-import monitorfile
+from monitorfile import deleteotherdir
 import notice
+from findplatform import find_platform
 
 def check(path):
-    monitorfile.deleteotherdir(path)
+    while(True):
+        if deleteotherdir(path):
+            break
     dir_list = os.listdir(path)
     dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
     newest_dir = dir_list[dir_time.index(max(dir_time))]
@@ -43,6 +46,11 @@ def check(path):
     print("导入耗时:", import_cost)
     print("预览帧率:", framefps)
     print("导出耗时:", export_cost)
+    if not export_cost:
+        export_cost = re.findall(r'exporter time cost: (\d+)', export_content)
+    print("导入耗时:", import_cost)
+    print("预览帧率:", framefps)
+    print("导出耗时:", export_cost)
     file.close()
     os.chdir("..")
     del dir_list
@@ -52,7 +60,9 @@ def check(path):
     return export_cost
 
 def checkothers(path):
-    monitorfile.deleteotherdir(path)
+    while(True):
+        if deleteotherdir(path):
+            break
     choice = input("1:查看主log中的内容\n2:查看export log中的内容\n")
     content = input("请输入要查找的内容:")
     dir_list = os.listdir(path)
@@ -62,9 +72,16 @@ def checkothers(path):
     file_list = os.listdir(os.path.join(path, newest_dir))
     file_len = [len(file) for file in file_list]
     judge = 0
+    judge = 0
     if choice == '1':
         shortest_file = file_list[file_len.index(min(file_len))]
         with open(shortest_file, 'r', encoding='utf-8', errors='ignore') as file:
+            for line in file:
+                if content in line:
+                    print(line)
+                    judge = 1
+        if judge == 0:
+            print("没有找到内容")
             for line in file:
                 if content in line:
                     print(line)
@@ -83,11 +100,20 @@ def checkothers(path):
                     judge = 1
         if judge == 0:
             print("没有找到内容")
+            for line in file:
+                if content in line:
+                    print(line)
+                    judge = 1
+        if judge == 0:
+            print("没有找到内容")
         file.close()
 
 
 if __name__ == "__main__":
-    path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
+    if find_platform() == 1:
+        path = r"/Users/insta360/Library/Application Support/Insta360/Insta360 Studio/log"
+    elif find_platform() == 2:
+        path = r"C:\Users\insta360\AppData\Local\Insta360\Insta360 Studio\log"
     choice = input("1:查看导入导出耗时、预览帧率\n2:检查其他字段\n")
     if choice == '1':
         check(path)
