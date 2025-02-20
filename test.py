@@ -16,6 +16,7 @@ if __name__ == "__main__":
     # openstudio()
 
     # os.system('mv /Applications/"Insta360 Studio.app"/Contents/MacOS/insta360-thumbnail-service.app /Applications/"Insta360 Studio.app"/Contents/MacOS/111.app')
-    os.system('sudo mv /Applications/"Insta360 Studio.app"/Contents/MacOS/111.app /Applications/"Insta360 Studio.app"/Contents/MacOS/insta360-thumbnail-service.app')
+    # os.system('sudo mv /Applications/"Insta360 Studio.app"/Contents/MacOS/111.app /Applications/"Insta360 Studio.app"/Contents/MacOS/insta360-thumbnail-service.app')
+    
 
 
