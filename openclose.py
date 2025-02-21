@@ -137,7 +137,6 @@ def cloud_service_test(inipath):
 def defringechange(inipath):
     os.chdir(inipath)
     ifopen = int(input("1:打开去紫边 2:关闭去紫边\n"))
-    ifcheck = int(input("1:打开去紫边检测 2:关闭去紫边检测\n"))
     with open("startup.ini", "r") as f:
         content = f.read()
         if 'defringe' in content:
