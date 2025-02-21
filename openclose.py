@@ -43,15 +43,16 @@ def openstudio(ifsingle=0):
         exe_path = r"C:\Program Files\Insta360 Studio\Insta360 Studio.exe"
         subprocess.Popen(exe_path)
     time.sleep(15)
-    if ifsingle == 1:
-        click(1314,281)
-    elif ifsingle == 2:
-        click(1007,23)
-        time.sleep(0.5)
-        click(1202,366)
-        time.sleep(0.5)
-        click(1105,720)
-    time.sleep(2)
+    if ifsingle:
+        if ifsingle == 1:
+            click(1314,281)
+        elif ifsingle == 2:
+            click(1007,23)
+            time.sleep(0.5)
+            click(1202,366)
+            time.sleep(0.5)
+            click(1105,720)
+        time.sleep(2)
 
 def closestudio(expecttimes):
     if find_platform() == 1:
