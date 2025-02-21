@@ -46,11 +46,6 @@ def check(path):
     print("导入耗时:", import_cost)
     print("预览帧率:", framefps)
     print("导出耗时:", export_cost)
-    if not export_cost:
-        export_cost = re.findall(r'exporter time cost: (\d+)', export_content)
-    print("导入耗时:", import_cost)
-    print("预览帧率:", framefps)
-    print("导出耗时:", export_cost)
     file.close()
     os.chdir("..")
     del dir_list
@@ -72,16 +67,9 @@ def checkothers(path):
     file_list = os.listdir(os.path.join(path, newest_dir))
     file_len = [len(file) for file in file_list]
     judge = 0
-    judge = 0
     if choice == '1':
         shortest_file = file_list[file_len.index(min(file_len))]
         with open(shortest_file, 'r', encoding='utf-8', errors='ignore') as file:
-            for line in file:
-                if content in line:
-                    print(line)
-                    judge = 1
-        if judge == 0:
-            print("没有找到内容")
             for line in file:
                 if content in line:
                     print(line)
@@ -94,12 +82,6 @@ def checkothers(path):
             if 'export' in file:
                 export_file = file
         with open(export_file, 'r', encoding='utf-8', errors='ignore') as file:
-            for line in file:
-                if content in line:
-                    print(line)
-                    judge = 1
-        if judge == 0:
-            print("没有找到内容")
             for line in file:
                 if content in line:
                     print(line)
