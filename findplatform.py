@@ -4,7 +4,7 @@ def find_platform():
     os = platform.platform()
     if 'mac' in os:
         return 1
-    elif 'win' in os:
+    else:
         return 2
     
 
