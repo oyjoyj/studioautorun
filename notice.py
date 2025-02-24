@@ -20,9 +20,9 @@ def zip_dir(dirpath,outFullName):
             zip.write(os.path.join(path,filename),os.path.join(fpath,filename))
     zip.close()
 
-def send_email(name,export_time,zipfile):
+def send_email(name,export_time,mainbody,zipfile):
     subject = '导出完成'
-    body = str('导出耗时：') + str(export_time)
+    body = str(mainbody) + str('导出耗时：') + str(export_time)
     
     msg = MIMEMultipart()
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
@@ -71,7 +71,7 @@ def send_email(name,export_time,zipfile):
         print('邮件发送成功')
     os.remove(zipfile)
 
-def export_send(name,expecttimes):
+def export_send(name,expecttimes,body):
     if find_platform() == 1:
         path = r"/Users/insta360/Library/Application Support/Insta360/Insta360 Studio/log"
     elif find_platform() == 2:
@@ -82,10 +82,11 @@ def export_send(name,expecttimes):
         dir_time = [os.path.getmtime(os.path.join(path, dir)) for dir in dir_list]
         newest_dir = dir_list[dir_time.index(max(dir_time))]
         zip_dir(os.path.join(path, newest_dir),os.path.join(path, newest_dir)+'.zip')
-        send_email(name,export_time,os.path.join(path, newest_dir)+'.zip')
+        send_email(name,export_time,body,os.path.join(path, newest_dir)+'.zip')
 
 if __name__ == '__main__':
     # send_email('oyj',1)
     name = str(input('输入姓名：'))
     expecttimes = int(input('输入预期导出次数：'))
-    export_send(name,expecttimes)
+    body = str(input('输入备注：'))
+    export_send(name,expecttimes,body)
